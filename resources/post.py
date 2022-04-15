@@ -51,6 +51,5 @@ class Posts(Resource):
                 'message': 'This department do not have any post yet'
             }, 403
         return {
-            'message': '',
-            'post': posts_schema.dump(posts)
+            'posts': posts_schema.dump(posts)
         }
