@@ -19,7 +19,7 @@ def create_app(test_config=None):
     api=Api(app)
     api.add_resource(User, "/user")
     api.add_resource(Users,"/users")
-    api.add_resource(Post,"/post/<int:id>")
+    api.add_resource(Post,"/post")
     api.add_resource(Posts,"/posts/<int:department_id>")
     api.add_resource(Departments,"/departments")
     db.init_app(app)

@@ -1,9 +1,13 @@
 from flask_restful import Resource
 from flask import request
 from models.post import PostModel
+from schema.post import PostSchema
+from marshmallow import ValidationError
 
+post_schema = PostSchema(many=False)
+posts_schema = PostSchema(many=True)
 class Post(Resource):
-    def get(self, id ):
+    def get(self):
         post =PostModel.get_post(id)
         if not post:
             return {
@@ -14,14 +18,29 @@ class Post(Resource):
             'post':'testing'
         }
 
-    def post(self, name):
-        return {'post': name}
+    def post(self):
+        json_data = request.get_json()
+        if not json_data:
+            return {"message": "No input data provided"}, 400
+        try:
+            data = post_schema.load(json_data)
+        except ValidationError as err:
+            return err.messages, 422
+        post = PostModel(
+            data['title'],
+            data['content'],
+            data['user_id'],
+            data['department_id'])
+        post.add_post()
+        return {
+            'message': 'Insert post success',
+        }
 
-    def put(self, name):
-        return {'post': name}
+    def put(self):
+        return {'post': 'test'}
 
-    def delete(self, name):
-        return {'post': name}
+    def delete(self):
+        return {'post': 'test'}
 
 
 class Posts(Resource):
@@ -33,5 +52,5 @@ class Posts(Resource):
             }, 403
         return {
             'message': '',
-            'post':'testing'
+            'post': posts_schema.dump(posts)
         }

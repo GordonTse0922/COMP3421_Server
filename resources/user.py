@@ -1,9 +1,9 @@
 from flask_restful import Resource
-from schema.user import UserSchema, CreateUserSchema
+from marshmallow import ValidationError
+from schema.user import UserSchema
 from flask import request
 from models.user import UserModel
 
-createUser_schema = CreateUserSchema()
 user_schema = UserSchema(many=False)
 users_schema = UserSchema(many=True)
 class User (Resource):
@@ -20,8 +20,14 @@ class User (Resource):
         }
 
     def post(self):
-        result = user_schema.load(request.json)
-        user = UserModel(result['name'], result['email'])
+        json_data = request.get_json()
+        if not json_data:
+            return {"message": "No input data provided"}, 400
+        try:
+            data = user_schema.load(json_data)
+        except ValidationError as err:
+            return err.messages, 422
+        user = UserModel(data['name'], data['email'])
         user.add_user()
         return {
             'message': 'Insert user success',
@@ -29,16 +35,21 @@ class User (Resource):
         }
 
     def put(self):
-        result = user_schema.load(request.json)
-        if len(result.errors) > 0:
-            return result.errors, 433
+        json_data = request.get_json()
+        if not json_data:
+            return {"message": "No input data provided"}, 400
+        try:
+            data = user_schema.load(json_data)
+        except ValidationError as err:
+            return err.messages, 422
+
         user = UserModel.get_user()
         if not user:
             return {
                 'message': 'user not exist!'
             }, 403
-        user.email = result.data['email']
-        user.password = result.data['password']
+        user.email = data['email']
+        # user.password = data['password']
         return {
             'message': 'Update user success',
             'user': user_schema.dump(user).data
