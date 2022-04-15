@@ -7,6 +7,7 @@ from resources.comment import Comment, Comments
 from resources.department import Departments
 from resources.post import Post, Posts
 from resources.user import User, Users
+from resources.contact import Contact
 from common.ma import ma
 from flask_sqlalchemy import SQLAlchemy
 from common.db import db
@@ -25,6 +26,7 @@ def create_app(test_config=None):
     api.add_resource(Departments,"/departments")
     api.add_resource(Comment,"/comment")
     api.add_resource(Comments,"/comments/<int:post_id>")
+    api.add_resource(Contact, "/contact")
     db.init_app(app)
     ma.init_app(app)
 
