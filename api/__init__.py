@@ -24,6 +24,7 @@ def create_app(test_config=None):
     api.add_resource(Departments,"/departments")
     db.init_app(app)
     ma.init_app(app)
+
     @app.route('/')
     def index():
     # Create data

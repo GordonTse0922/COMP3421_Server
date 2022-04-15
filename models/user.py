@@ -33,3 +33,4 @@ class UserModel(db.Model):
     @classmethod
     def get_all_user(cls):
         return cls.query.all()
+

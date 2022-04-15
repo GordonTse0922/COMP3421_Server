@@ -1,4 +1,5 @@
 from common.db import db
+from flask_sqlalchemy import event
 
 class DepartmentModel(db.Model):
     __tablename__ = 'departments'
@@ -13,3 +14,9 @@ class DepartmentModel(db.Model):
     @classmethod
     def get_all_department(cls):
         return cls.query.all()
+
+@event.listens_for(DepartmentModel.__table__, 'after_create')
+def create_departments(*args, **kwargs):
+    db.session.add(DepartmentModel(name='Computing', description='Computing department'))
+    db.session.add(DepartmentModel(name='Electrical Engineering', description='Electrical Engineering department'))
+    db.session.commit()
