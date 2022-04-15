@@ -11,9 +11,9 @@ class UserModel(db.Model):
     created_at = db.Column(db.DateTime, nullable= False)
     posts = db.relationship('PostModel', backref='users', lazy=True)
 
-    def __init__(self, username, user_email):
-        self.username = username
-        self.user_email = user_email
+    def __init__(self, name, email):
+        self.name = name
+        self.email = email
         self.created_at = datetime.now()
 
     def add_user(self):

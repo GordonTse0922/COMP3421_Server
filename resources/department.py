@@ -15,7 +15,7 @@ class Department(Resource):
         return {
             'message': '',
             'post':'testing'
-        }
+        }, 200
 
     def post(self, name):
         return {'post': name}

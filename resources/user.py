@@ -1,14 +1,15 @@
 from flask_restful import Resource
-from schema.user import UserSchema
+from schema.user import UserSchema, CreateUserSchema
 from flask import request
 from models.user import UserModel
 
-
+createUser_schema = CreateUserSchema()
 user_schema = UserSchema(many=False)
+users_schema = UserSchema(many=True)
 class User (Resource):
 
-    def get(self, name):
-        user = UserModel.get_user(name)
+    def get(self):
+        user = UserModel.get_user()
         if not user:
             return {
                 'message': 'user not exist!'
@@ -18,24 +19,20 @@ class User (Resource):
             'user': user_schema.dump(user).data
         }
 
-    def post(self, name):
+    def post(self):
         result = user_schema.load(request.json)
-
-        if len(result.errors) > 0:
-            return result.errors, 433
-
-        user = UserModel(name, result.data['email'])
+        user = UserModel(result['name'], result['email'])
         user.add_user()
         return {
             'message': 'Insert user success',
-            'user': user
+            'user': user_schema.dump(user)
         }
 
-    def put(self, name):
+    def put(self):
         result = user_schema.load(request.json)
         if len(result.errors) > 0:
             return result.errors, 433
-        user = UserModel.get_user(name)
+        user = UserModel.get_user()
         if not user:
             return {
                 'message': 'user not exist!'
@@ -47,8 +44,8 @@ class User (Resource):
             'user': user_schema.dump(user).data
         }
 
-    def delete(self, name):
-        UserModel.delete_user(name)
+    def delete(self):
+        UserModel.delete_user()
         return {
             'message': 'Delete done!'
         }

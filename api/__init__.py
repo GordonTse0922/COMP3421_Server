@@ -17,7 +17,7 @@ def create_app(test_config=None):
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///dev.sqlite3'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     api=Api(app)
-    api.add_resource(User, "/user/<string:name>")
+    api.add_resource(User, "/user")
     api.add_resource(Users,"/users")
     api.add_resource(Post,"/post/<int:id>")
     api.add_resource(Posts,"/posts/<int:department_id>")
