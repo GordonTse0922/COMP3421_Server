@@ -3,6 +3,7 @@ import os
 from flask import Flask
 from flask_marshmallow import Marshmallow
 from flask_restful import Api
+from resources.comment import Comment, Comments
 from resources.department import Departments
 from resources.post import Post, Posts
 from resources.user import User, Users
@@ -22,6 +23,8 @@ def create_app(test_config=None):
     api.add_resource(Post,"/post")
     api.add_resource(Posts,"/posts/<int:department_id>")
     api.add_resource(Departments,"/departments")
+    api.add_resource(Comment,"/comment")
+    api.add_resource(Comments,"/comments/<int:post_id>")
     db.init_app(app)
     ma.init_app(app)
 

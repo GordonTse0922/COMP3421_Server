@@ -7,7 +7,7 @@ class DepartmentModel(db.Model):
     id = db.Column(db.Integer, primary_key =True,autoincrement=True)
     name = db.Column(db.String(100), nullable = False, unique = True)
     description = db.Column(db.String(300), nullable= False)
-    posts = db.relationship('PostModel', backref='departments', lazy=True)
+    posts = db.relationship('PostModel')
 
     def __init__(self, name, description):
         self.name = name
@@ -17,8 +17,3 @@ class DepartmentModel(db.Model):
     def get_all_department(cls):
         return cls.query.all()
 
-@event.listens_for(DepartmentModel.__table__, 'after_create')
-def create_departments(*args, **kwargs):
-    db.session.add(DepartmentModel(name='Computing', description='Computing department'))
-    db.session.add(DepartmentModel(name='Electrical Engineering', description='Electrical Engineering department'))
-    db.session.commit()

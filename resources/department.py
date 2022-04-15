@@ -35,6 +35,7 @@ class Departments(Resource):
             return {
                 'message': 'No department in DB'
             }, 403
+        print(departments[0].posts)
         return {
             'message': '',
             'departments': departments_schema.dump(departments)

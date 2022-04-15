@@ -12,4 +12,4 @@ class DepartmentSchema(ma.SQLAlchemyAutoSchema):
     name: fields.String(required=True, validate=must_not_be_blank)
     description = fields.Email(required=True, validate=must_not_be_blank)
     created_at = fields.DateTime(dump_only=True)
-    posts = fields.Nested(PostSchema)
+    # posts = fields.Nested(PostSchema(many=True))

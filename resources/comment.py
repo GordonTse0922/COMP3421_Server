@@ -1,30 +1,38 @@
 from flask_restful import Resource
 from flask import request
 from models.comment import CommentModel
+from schema.comment import CommentSchema
+from marshmallow import ValidationError
 
+comment_schema = CommentSchema(many=False)
+comments_schema = CommentSchema(many=True)
 class Comment(Resource):
     def get(self, post_id ):
-        post =CommentModel.get_comments(post_id)
-        if not post:
+        comments =CommentModel.get_comments(post_id)
+        if not comments:
             return {
-                'message': 'no comment for this post!'
+                'message': 'This post do not have any  comment yet'
             }, 403
         return {
-            'message': '',
-            'post':'testing'
-        },200
+            'comments': comments_schema.dump(comments)
+        }
 
-    def post(self, post_id):
-        result = comment_schema.load(request.json)
-
-        if len(result.errors) > 0:
-            return result.errors, 433
-
-        comment = CommentModel(result.data['user_id'],result.data['post_id'],result.data['content'])
-        comment.add_comment()
+    def post(self):
+        json_data = request.get_json()
+        if not json_data:
+            return {"message": "No input data provided"}, 400
+        try:
+            data = comment_schema.load(json_data)
+        except ValidationError as err:
+            return err.messages, 422
+        comment = CommentModel(
+            data['user_id'],
+            data['post_id'],
+            data['content']
+            )
+        comment.add()
         return {
-            'message': 'Insert user success',
-            'comment': 'testing'
+            'message': 'Insert post success',
         }
 
     def put(self, name):
@@ -34,14 +42,13 @@ class Comment(Resource):
         return {'post': name}
 
 
-class Posts(Resource):
-    def get(self, department_id ):
-        posts =PostModel.get_all_department_post(department_id)
-        if not posts:
+class Comments(Resource):
+    def get(self, post_id ):
+        comments =CommentModel.get_comments(post_id)
+        if not comments:
             return {
-                'message': 'This department do not have any post yet'
+                'message': 'This post do not have any  comment yet'
             }, 403
         return {
-            'message': '',
-            'post':'testing'
+            'comments': comments_schema.dump(comments)
         }

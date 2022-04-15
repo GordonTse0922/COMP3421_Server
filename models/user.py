@@ -9,7 +9,7 @@ class UserModel(db.Model):
     name = db.Column(db.String(100), nullable = False, unique = True)
     email = db.Column(db.String(100), nullable= False, unique = True)
     created_at = db.Column(db.DateTime, nullable= False)
-    posts = db.relationship('PostModel', backref='users', lazy=True)
+    posts = db.relationship('PostModel')
 
     def __init__(self, name, email):
         self.name = name
