@@ -1,21 +1,29 @@
 import os
 
 from flask import Flask
-from api.models import db
+from flask_marshmallow import Marshmallow
+from flask_restful import Api
+from resources.department import Departments
+from resources.post import Post, Posts
+from resources.user import User, Users
+from common.ma import ma
+from flask_sqlalchemy import SQLAlchemy
+from common.db import db
+from flask_migrate import Migrate
 
 def create_app(test_config=None):
     # create and configure the app
-    app = Flask(__name__, instance_relative_config=True)
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///dev.sqlite'
+    app = Flask(__name__)
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///dev.sqlite3'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    # app.config.from_mapping(
-    #     SECRET_KEY='dev',
-    #     DATABASE=os.path.join(app.instance_path, 'databse.sqlite'),
-    # )
-
-
+    api=Api(app)
+    api.add_resource(User, "/user/<string:name>")
+    api.add_resource(Users,"/users")
+    api.add_resource(Post,"/post/<int:id>")
+    api.add_resource(Posts,"/posts/<int:department_id>")
+    api.add_resource(Departments,"/departments")
     db.init_app(app)
-
+    ma.init_app(app)
     @app.route('/')
     def index():
     # Create data
