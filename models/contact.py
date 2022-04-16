@@ -5,8 +5,8 @@ from flask_sqlalchemy import event
 class ContactModel(db.Model):
     __tablename__ = 'contact'
     id = db.Column(db.Integer, primary_key =True,autoincrement=True)
-    name = db.Column(db.String(100), nullable = False, unique = True)
-    email = db.Column(db.String(100), nullable= False, unique = True)
+    name = db.Column(db.String(100), nullable = False)
+    email = db.Column(db.String(100), nullable= False)
     feedback = db.Column(db.String(500), nullable= False)
     created_at = db.Column(db.DateTime, nullable= False)
 
@@ -16,7 +16,6 @@ class ContactModel(db.Model):
         self.feedback = feedback
         self.created_at = datetime.now()
 
-    @classmethod
     def add_feedback(self):
         db.session.add(self)
         db.session.commit()
