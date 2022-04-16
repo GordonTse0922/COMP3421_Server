@@ -12,10 +12,13 @@ from common.ma import ma
 from flask_sqlalchemy import SQLAlchemy
 from common.db import db
 from flask_migrate import Migrate
+from flask_cors import CORS
 
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__)
+    CORS(app)
+    
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///dev.sqlite3'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     api=Api(app)
@@ -29,6 +32,7 @@ def create_app(test_config=None):
     api.add_resource(Contact, "/contact")
     db.init_app(app)
     ma.init_app(app)
+
 
     @app.route('/')
     def index():

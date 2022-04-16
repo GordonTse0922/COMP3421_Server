@@ -1,7 +1,7 @@
 from flask_restful import Resource
 from marshmallow import ValidationError
 from schema.user import UserSchema
-from flask import request
+from flask import request, jsonify
 from models.user import UserModel
 
 user_schema = UserSchema(many=False)
