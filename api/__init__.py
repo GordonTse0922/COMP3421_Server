@@ -6,23 +6,22 @@ from flask_restful import Api
 from resources.comment import Comment, Comments
 from resources.department import Departments
 from resources.post import Post, Posts
-from resources.user import User, Users
+from resources.user import Login, User, Users
 from resources.contact import Contact
 from common.ma import ma
 from flask_sqlalchemy import SQLAlchemy
-from common.db import db
-from flask_migrate import Migrate
+from common.db import db, migrate
 from flask_cors import CORS
 
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__)
     CORS(app)
-    
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///dev.sqlite3'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     api=Api(app)
     api.add_resource(User, "/user")
+    api.add_resource(Login,"/login")
     api.add_resource(Users,"/users")
     api.add_resource(Post,"/post")
     api.add_resource(Posts,"/posts/<int:department_id>")
@@ -31,6 +30,7 @@ def create_app(test_config=None):
     api.add_resource(Comments,"/comments/<int:post_id>")
     api.add_resource(Contact, "/contact")
     db.init_app(app)
+    migrate.init_app(app,db)
     ma.init_app(app)
 
 

@@ -7,13 +7,15 @@ class UserModel(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key =True,autoincrement=True)
     name = db.Column(db.String(100), nullable = False, unique = True)
+    password = db.Column(db.String(100), nullable = False )
     email = db.Column(db.String(100), nullable= False, unique = True)
     created_at = db.Column(db.DateTime, nullable= False)
     posts = db.relationship('PostModel')
 
-    def __init__(self, name, email):
+    def __init__(self, name, email,password):
         self.name = name
         self.email = email
+        self.password = password
         self.created_at = datetime.now()
 
     def add_user(self):
@@ -24,8 +26,8 @@ class UserModel(db.Model):
         db.session.commit()
 
     @classmethod
-    def get_user(cls, name):
-        return cls.query.filter_by(name=name).first()
+    def get_user(cls, email):
+        return cls.query.filter_by(email=email).first()
 
     def delete_user(self):
         db.session.delete(self)
