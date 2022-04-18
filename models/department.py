@@ -14,6 +14,9 @@ class DepartmentModel(db.Model):
         self.name = name
         self.description = description
 
+    def add_department(self):
+        db.session.add(self)
+        db.session.commit()
     @classmethod
     def get_department(cls):
         id = request.args.get('id', type = int)
