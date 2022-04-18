@@ -7,7 +7,7 @@ from marshmallow import ValidationError
 comment_schema = CommentSchema(many=False)
 comments_schema = CommentSchema(many=True)
 class Comment(Resource):
-    def get(self, post_id ):
+    def get(self  ):
         comments =CommentModel.get_comments()
         if not comments:
             return {

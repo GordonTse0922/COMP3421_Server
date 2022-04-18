@@ -48,8 +48,9 @@ class Posts(Resource):
         posts =PostModel.get_all_department_post()
         if not posts:
             return {
-                'message': 'This department do not have any post yet'
-            }, 403
+                'message': 'This department do not have any post yet',
+                'posts':[]
+            },200
         return {
             'posts': posts_schema.dump(posts)
         }

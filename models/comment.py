@@ -19,9 +19,9 @@ class CommentModel(db.Model):
 
     @classmethod
     def get_comments(cls):
-        post_id = request.args.get('id', type = int)
+        post_id = request.args.get('postId', type = int)
         return cls.query.filter_by(post_id=post_id).all()
-        
+
 
     def add(self):
         db.session.add(self)
