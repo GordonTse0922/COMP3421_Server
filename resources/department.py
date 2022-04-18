@@ -6,15 +6,15 @@ from schema.department import DepartmentSchema
 department_schema = DepartmentSchema()
 departments_schema = DepartmentSchema(many=True)
 class Department(Resource):
-    def get(self, id ):
-        post =DepartmentModel.get(id)
-        if not post:
+    def get(self):
+        department =DepartmentModel.get_department()
+        if not department:
             return {
-                'message': 'post not exist!'
+                'message': 'department not exist!'
             }, 403
         return {
             'message': '',
-            'post':'testing'
+            'departments': department_schema.dump(department)
         }, 200
 
     def post(self, name):

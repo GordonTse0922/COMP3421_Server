@@ -1,6 +1,7 @@
 from common.db import db
 from flask_sqlalchemy import event
 from models.post import PostModel
+from flask import request
 
 class DepartmentModel(db.Model):
     __tablename__ = 'departments'
@@ -12,6 +13,11 @@ class DepartmentModel(db.Model):
     def __init__(self, name, description):
         self.name = name
         self.description = description
+
+    @classmethod
+    def get_department(cls):
+        id = request.args.get('id', type = int)
+        return cls.query.filter_by(id=id).first()
 
     @classmethod
     def get_all_department(cls):

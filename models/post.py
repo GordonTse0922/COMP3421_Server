@@ -1,6 +1,7 @@
 from common.db import db
 from datetime import datetime
 from models.comment import CommentModel
+from flask import request
 
 class PostModel (db.Model):
     __tablename__ = 'posts'
@@ -32,5 +33,6 @@ class PostModel (db.Model):
         return cls.query.all()
 
     @classmethod
-    def get_all_department_post(cls, id):
+    def get_all_department_post(cls):
+        id = request.args.get('id', type = int)
         return cls.query.filter_by(department_id=id).all()

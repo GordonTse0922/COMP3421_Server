@@ -44,8 +44,8 @@ class Post(Resource):
 
 
 class Posts(Resource):
-    def get(self, department_id ):
-        posts =PostModel.get_all_department_post(department_id)
+    def get(self):
+        posts =PostModel.get_all_department_post()
         if not posts:
             return {
                 'message': 'This department do not have any post yet'

@@ -1,7 +1,7 @@
 from datetime import datetime
 from common.db import db
 from flask_sqlalchemy import event
-
+from flask import request
 
 class CommentModel(db.Model):
     __tablename__ = 'comments'
@@ -18,8 +18,10 @@ class CommentModel(db.Model):
         self.created_at = datetime.now()
 
     @classmethod
-    def get_comments(cls, post_id):
+    def get_comments(cls):
+        post_id = request.args.get('id', type = int)
         return cls.query.filter_by(post_id=post_id).all()
+        
 
     def add(self):
         db.session.add(self)

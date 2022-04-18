@@ -8,7 +8,7 @@ comment_schema = CommentSchema(many=False)
 comments_schema = CommentSchema(many=True)
 class Comment(Resource):
     def get(self, post_id ):
-        comments =CommentModel.get_comments(post_id)
+        comments =CommentModel.get_comments()
         if not comments:
             return {
                 'message': 'This post do not have any  comment yet'
@@ -43,8 +43,8 @@ class Comment(Resource):
 
 
 class Comments(Resource):
-    def get(self, post_id ):
-        comments =CommentModel.get_comments(post_id)
+    def get(self):
+        comments =CommentModel.get_comments()
         if not comments:
             return {
                 'message': 'This post do not have any  comment yet'
