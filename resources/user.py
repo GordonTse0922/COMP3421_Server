@@ -19,8 +19,7 @@ class User (Resource):
                 'message': 'user not exist!'
             }, 403
         return {
-            'message': '',
-            'user': user_schema.dump(user).data
+            'user': user_schema.dump(user)
         }
 
     def post(self):

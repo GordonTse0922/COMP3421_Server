@@ -1,4 +1,5 @@
 
+from flask import request
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from common.db import db
@@ -26,8 +27,11 @@ class UserModel(db.Model):
         db.session.commit()
 
     @classmethod
-    def get_user(cls, email):
-        return cls.query.filter_by(email=email).first()
+    def get_user(cls):
+        userId = request.args.get('id', type = int)
+        result=cls.query.filter_by(id=userId).first()
+        print(result)
+        return cls.query.filter_by(id=userId).first()
 
     def delete_user(self):
         db.session.delete(self)

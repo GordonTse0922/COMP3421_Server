@@ -3,6 +3,8 @@ from datetime import datetime
 from models.comment import CommentModel
 from flask import request
 
+from models.user import UserModel
+
 class PostModel (db.Model):
     __tablename__ = 'posts'
     id= db.Column(db.Integer, primary_key =True,autoincrement=True)
@@ -35,5 +37,8 @@ class PostModel (db.Model):
 
     @classmethod
     def get_all_department_post(cls):
-        id = request.args.get('id', type = int)
-        return cls.query.filter_by(department_id=id).all()
+        postId = request.args.get('id', type = int)
+        result=cls.query.join(UserModel,UserModel.id==PostModel.user_id).add_columns(UserModel.name).filter(PostModel.department_id==postId).all()
+        # result = db.session.query(PostModel).join(UserModel,UserModel.id).all()
+        print(result)
+        return result
