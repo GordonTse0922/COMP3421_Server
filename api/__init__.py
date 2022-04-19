@@ -17,7 +17,7 @@ def create_app():
     # create and configure the app\
     # config_object = Config()
     app = Flask(__name__)
-    CORS(app)
+    CORS(app,origins=os.environ['CORS_ALLOW_ORIGIN'], supports_credentials=os.environ['CORS_SUPPORTS_CREDENTIALS'])
     # CORS(app,
     #     origins=[config_object.CORS_ALLOW_ORIGIN], # the domains allowed to access the server
     #     supports_credentials=config_object.CORS_SUPPORTS_CREDENTIALS) # True
