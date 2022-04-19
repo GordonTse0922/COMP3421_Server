@@ -27,6 +27,12 @@ class UserModel(db.Model):
         db.session.commit()
 
     @classmethod
+    def login(cls,email):
+        print(email)
+        user=cls.query.filter_by(email=email).first()
+        return user
+
+    @classmethod
     def get_user(cls):
         userId = request.args.get('id', type = int)
         result=cls.query.filter_by(id=userId).first()

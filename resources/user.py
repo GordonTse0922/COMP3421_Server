@@ -2,7 +2,7 @@ from sqlite3 import IntegrityError
 from flask_restful import Resource
 from sqlalchemy.exc import IntegrityError
 from marshmallow import ValidationError
-from schema.user import UserLoginSChema, UserSchema
+from schema.user import LoginDataSchema, UserLoginSChema, UserSchema
 from flask import request, jsonify
 from models.user import UserModel
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -10,6 +10,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 user_schema = UserSchema(many=False)
 login_schema=UserLoginSChema(many=False)
 users_schema = UserSchema(many=True)
+loginData_schema=LoginDataSchema(many=False)
 class User (Resource):
 
     def get(self):
@@ -94,10 +95,11 @@ class Login(Resource):
             return err.messages, 422
         password=data['password']
         email=data['email']
-        user=UserModel.get_user(email)
+        user=UserModel.login(email)
         if check_password_hash(user.password,password) and user is not None:
             return {
-                'meesage': 'Login success'
+                'meesage': 'Login success',
+                'user': loginData_schema.dump(user)
             }, 200
         else:
             return {
