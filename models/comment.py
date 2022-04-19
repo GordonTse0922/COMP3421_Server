@@ -10,6 +10,8 @@ class CommentModel(db.Model):
     post_id = db.Column(db.Integer,  db.ForeignKey('posts.id'), nullable=False)
     content = db.Column(db.String(300), nullable= False)
     created_at = db.Column(db.DateTime, nullable= False)
+    user = db.relationship('UserModel')
+
 
     def __init__(self, user_id, post_id,content):
         self.user_id = user_id

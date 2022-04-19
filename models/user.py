@@ -3,6 +3,7 @@ from flask import request
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from common.db import db
+from models.post import PostModel
 
 class UserModel(db.Model):
     __tablename__ = 'users'

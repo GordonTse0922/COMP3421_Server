@@ -5,7 +5,7 @@ from schema.post import PostSchema
 from marshmallow import ValidationError
 
 post_schema = PostSchema(many=False)
-posts_schema = PostSchema(many=True)
+posts_schema = PostSchema(only=['id','user','title','content','created_at','comments'],many=True)
 class Post(Resource):
     def get(self):
         post =PostModel.get_post()

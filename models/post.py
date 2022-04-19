@@ -1,9 +1,6 @@
 from common.db import db
 from datetime import datetime
-from models.comment import CommentModel
 from flask import request
-
-from models.user import UserModel
 
 class PostModel (db.Model):
     __tablename__ = 'posts'
@@ -14,6 +11,7 @@ class PostModel (db.Model):
     user_id= db.Column(db.Integer,  db.ForeignKey('users.id'), nullable=False)
     department_id= db.Column(db.Integer,  db.ForeignKey('departments.id'), nullable=False)
     comments = db.relationship('CommentModel')
+    user = db.relationship('UserModel')
 
     def __init__(self, title, content,user_id,department_id):
         self.title = title

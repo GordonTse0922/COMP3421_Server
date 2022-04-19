@@ -1,6 +1,5 @@
 from common.db import db
 from flask_sqlalchemy import event
-from models.post import PostModel
 from flask import request
 
 class DepartmentModel(db.Model):

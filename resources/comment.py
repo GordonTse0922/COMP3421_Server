@@ -1,11 +1,12 @@
 from flask_restful import Resource
 from flask import request
 from models.comment import CommentModel
-from schema.comment import CommentSchema
+from schema.comment import CommentOutputSchema, CommentSchema
 from marshmallow import ValidationError
 
 comment_schema = CommentSchema(many=False)
 comments_schema = CommentSchema(many=True)
+comments_output_schema = CommentOutputSchema(many=True)
 class Comment(Resource):
     def get(self  ):
         comments =CommentModel.get_comments()
@@ -50,5 +51,5 @@ class Comments(Resource):
                 'message': 'This post do not have any  comment yet'
             }, 403
         return {
-            'comments': comments_schema.dump(comments)
+            'comments': comments_output_schema.dump(comments)
         }
