@@ -8,14 +8,13 @@ post_schema = PostSchema(many=False)
 posts_schema = PostSchema(many=True)
 class Post(Resource):
     def get(self):
-        post =PostModel.get_post(id)
+        post =PostModel.get_post()
         if not post:
             return {
                 'message': 'post not exist!'
             }, 403
         return {
-            'message': '',
-            'post':'testing'
+            'post': post_schema.dump(post)
         }
 
     def post(self):

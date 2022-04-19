@@ -21,7 +21,8 @@ class PostModel (db.Model):
         self.created_at = datetime.now()
 
     @classmethod
-    def get_post(cls, id):
+    def get_post(cls):
+        id = request.args.get('id', type = int)
         return cls.query.filter_by(id=id).first()
 
     def add_post(self):
