@@ -33,7 +33,7 @@ class Comment(Resource):
             )
         comment.add()
         return {
-            'message': 'Insert post success',
+            'message': 'Insert comment success',
         }
 
     def put(self, name):
@@ -48,8 +48,9 @@ class Comments(Resource):
         comments =CommentModel.get_comments()
         if not comments:
             return {
-                'message': 'This post do not have any  comment yet'
-            }, 403
+                'message': 'This post do not have any comment yet',
+                'comments':[]
+            }, 200
         return {
             'comments': comments_output_schema.dump(comments)
         }
