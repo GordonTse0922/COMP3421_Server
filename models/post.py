@@ -38,7 +38,8 @@ class PostModel (db.Model):
     @classmethod
     def get_all_department_post(cls):
         postId = request.args.get('id', type = int)
-        result=cls.query.join(UserModel,UserModel.id==PostModel.user_id).add_columns(UserModel.name).filter(PostModel.department_id==postId).all()
+        return cls.query.filter_by(department_id=postId).all()
+        # result=cls.query.join(UserModel,UserModel.id==PostModel.user_id).add_columns(UserModel.name).filter(PostModel.department_id==postId).all()
         # result = db.session.query(PostModel).join(UserModel,UserModel.id).all()
-        print(result)
-        return result
+        # print(result)
+        # return result
