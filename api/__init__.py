@@ -17,14 +17,12 @@ def create_app():
     # create and configure the app\
     # config_object = Config()
     app = Flask(__name__)
-    CORS(app)
-    # CORS(app,origins=os.environ['CORS_ALLOW_ORIGIN'], supports_credentials=os.environ['CORS_SUPPORTS_CREDENTIALS'])
+    CORS(app,origins=os.environ['CORS_ALLOW_ORIGIN'], supports_credentials=os.environ['CORS_SUPPORTS_CREDENTIALS'])
     # CORS(app,
     #     origins=[config_object.CORS_ALLOW_ORIGIN], # the domains allowed to access the server
     #     supports_credentials=config_object.CORS_SUPPORTS_CREDENTIALS) # True
     # app.config.from_object(config_object)
-    # app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DB_URL']
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///dev.sqlite3'
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DB_URL']
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     api=Api(app)
     api.add_resource(User, "/user")
